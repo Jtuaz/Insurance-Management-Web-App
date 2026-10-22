@@ -1,0 +1,91 @@
+:host {
+  --brand-navy: #17365d;
+  --brand-navy-dark: #102945;
+  --brand-teal: #0f766e;
+  --brand-teal-light: #ccfbf1;
+  --page-background: #f3f6fa;
+  --surface: #ffffff;
+  --text-primary: #172b4d;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --success-color: #15803d;
+  --danger-color: #b91c1c;
+  --card-shadow: 0 4px 18px rgba(23, 54, 93, 0.05);
+
+  display: block;
+  min-height: 100vh;
+  color: var(--text-primary);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--page-background);
+}
+
+app-navbar {
+  display: block;
+  flex: 0 0 250px;
+  width: 250px;
+  min-width: 0;
+}
+
+.app-main {
+  flex: 1;
+  min-width: 0;
+  min-height: 100vh;
+}
+
+.app-content {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 36px;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(15, 118, 110, 0.35);
+  outline-offset: 3px;
+}
+
+@media (max-width: 1024px) {
+  .app-content {
+    padding: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-layout {
+    flex-direction: column;
+  }
+
+  app-navbar {
+    flex: none;
+    width: 100%;
+  }
+
+  .app-content {
+    padding: 78px 18px 28px;
+  }
+}

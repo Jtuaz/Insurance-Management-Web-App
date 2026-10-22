@@ -1,0 +1,235 @@
+
+<div class="admin-layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">U</div>
+      <div>
+        <h2>UNUM</h2>
+        <span>Insurance Portal</span>
+      </div>
+    </div>
+
+    <div class="sidebar-section">ADMINISTRATION</div>
+
+    <nav class="navigation">
+      <a
+        routerLink="/admin/claims"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        <span class="nav-icon">▤</span>
+        <span>Claims Review</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-avatar">
+        {{ adminName.charAt(0).toUpperCase() }}
+      </div>
+
+      <div class="user-details">
+        <strong>{{ adminName }}</strong>
+        <span>Administrator</span>
+      </div>
+
+      <button
+        class="logout-button"
+        type="button"
+        title="Log out"
+        aria-label="Log out"
+        (click)="logout()"
+      >
+        ↪
+      </button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div>
+        <div class="breadcrumb">Admin / Claims Review</div>
+        <h1>Claims Management</h1>
+        <p>Review and manage customer insurance claims.</p>
+      </div>
+
+      <button
+        class="refresh-button"
+        type="button"
+        [disabled]="isLoading"
+        (click)="loadClaims()"
+      >
+        ↻ Refresh Claims
+      </button>
+    </header>
+
+    <section class="summary-cards">
+      <article class="summary-card">
+        <span class="summary-label">Total Claims</span>
+        <strong>{{ claims.length }}</strong>
+        <span class="summary-description">All customer submissions</span>
+      </article>
+
+      <article class="summary-card pending-card">
+        <span class="summary-label">Pending Review</span>
+        <strong>{{ pendingCount }}</strong>
+        <span class="summary-description">Awaiting a decision</span>
+      </article>
+
+      <article class="summary-card approved-card">
+        <span class="summary-label">Approved</span>
+        <strong>{{ approvedCount }}</strong>
+        <span class="summary-description">Claims approved</span>
+      </article>
+
+      <article class="summary-card rejected-card">
+        <span class="summary-label">Rejected</span>
+        <strong>{{ rejectedCount }}</strong>
+        <span class="summary-description">Claims rejected</span>
+      </article>
+    </section>
+
+    <div
+      *ngIf="successMessage"
+      class="alert success-alert"
+      role="status"
+    >
+      {{ successMessage }}
+    </div>
+
+    <div
+      *ngIf="errorMessage"
+      class="alert error-alert"
+      role="alert"
+    >
+      {{ errorMessage }}
+    </div>
+
+    <section class="claims-panel">
+      <div class="panel-header">
+        <div>
+          <h2>Customer Claims</h2>
+          <p>Review claim details before making a decision.</p>
+        </div>
+
+        <span class="claims-count">
+          {{ claims.length }} claims
+        </span>
+      </div>
+
+      <div *ngIf="isLoading" class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading claims...</p>
+      </div>
+
+      <div
+        *ngIf="!isLoading && !errorMessage && claims.length === 0"
+        class="empty-state"
+      >
+        <div class="empty-icon">▤</div>
+        <h3>No claims found</h3>
+        <p>Customer claims will appear here when submitted.</p>
+      </div>
+
+      <div
+        *ngIf="!isLoading && claims.length > 0"
+        class="table-wrapper"
+      >
+        <table>
+          <thead>
+            <tr>
+              <th>Claim</th>
+              <th>Customer</th>
+              <th>Policy</th>
+              <th>Date Submitted</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let claim of claims">
+              <td>
+                <strong>#{{ claim.claimId }}</strong>
+                <span class="secondary-text">
+                  Policy #{{ claim.policyId }}
+                </span>
+              </td>
+
+              <td>
+                <strong>
+                  {{ claim.customerFirstName }}
+                  {{ claim.customerLastName }}
+                </strong>
+                <span class="secondary-text">
+                  {{ claim.customerEmail }}
+                </span>
+              </td>
+
+              <td>{{ claim.policyType }}</td>
+
+              <td>{{ claim.claimDate | date:'MMM d, y' }}</td>
+
+              <td class="amount">
+                {{ claim.amountClaimed | currency:'USD':'symbol':'1.2-2' }}
+              </td>
+
+              <td>
+                <span
+                  class="status-badge"
+                  [ngClass]="{
+                    'status-pending': claim.status?.toLowerCase() === 'pending',
+                    'status-approved': claim.status?.toLowerCase() === 'approved',
+                    'status-rejected': claim.status?.toLowerCase() === 'rejected'
+                  }"
+                >
+                  {{ claim.status || 'Unknown' }}
+                </span>
+              </td>
+
+              <td>
+                <div
+                  *ngIf="claim.status?.toLowerCase() === 'pending'"
+                  class="action-buttons"
+                >
+                  <button
+                    type="button"
+                    class="approve-button"
+                    [disabled]="updatingClaimIds.has(claim.claimId)"
+                    (click)="reviewClaim(claim, 'Approved')"
+                  >
+                    {{
+                      updatingClaimIds.has(claim.claimId)
+                        ? 'Saving...'
+                        : 'Approve'
+                    }}
+                  </button>
+
+                  <button
+                    type="button"
+                    class="reject-button"
+                    [disabled]="updatingClaimIds.has(claim.claimId)"
+                    (click)="reviewClaim(claim, 'Rejected')"
+                  >
+                    Reject
+                  </button>
+                </div>
+
+                <span
+                  *ngIf="claim.status?.toLowerCase() !== 'pending'"
+                  class="reviewed-label"
+                >
+                  Reviewed
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="page-footer">
+      UNUM Insurance Portal · Administration
+    </footer>
+  </main>
+</div>

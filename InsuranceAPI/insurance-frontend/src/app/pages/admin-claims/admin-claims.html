@@ -1,0 +1,139 @@
+
+<section class="admin-claims">
+  <div class="page-header">
+    <div>
+      <h1>Claims Management</h1>
+      <p>Review and manage insurance claims across all customers.</p>
+    </div>
+
+    <button
+      type="button"
+      class="refresh-button"
+      (click)="loadClaims()"
+      [disabled]="isLoading || updatingClaimId !== null">
+      Refresh Claims
+    </button>
+  </div>
+
+  @if (successMessage) {
+    <div class="message success-message" role="status">
+      {{ successMessage }}
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="message error-message" role="alert">
+      {{ errorMessage }}
+    </div>
+  }
+
+  <div class="summary">
+    <div class="summary-card">
+      <span>Total Claims</span>
+      <strong>{{ claims.length }}</strong>
+    </div>
+
+    <div class="summary-card">
+      <span>Pending</span>
+      <strong>
+        {{ claims.filter(c => c.status === 'Pending').length }}
+      </strong>
+    </div>
+
+    <div class="summary-card">
+      <span>Approved</span>
+      <strong>
+        {{ claims.filter(c => c.status === 'Approved').length }}
+      </strong>
+    </div>
+
+    <div class="summary-card">
+      <span>Rejected</span>
+      <strong>
+        {{ claims.filter(c => c.status === 'Rejected').length }}
+      </strong>
+    </div>
+  </div>
+
+  @if (isLoading) {
+    <p class="loading">Loading claims...</p>
+  } @else if (claims.length === 0 && !errorMessage) {
+    <p class="empty-state">No claims found.</p>
+  } @else {
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Claim ID</th>
+            <th>Customer</th>
+            <th>Email</th>
+            <th>Policy</th>
+            <th>Claim Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (claim of claims; track claim.claimId) {
+            <tr>
+              <td>#{{ claim.claimId }}</td>
+
+              <td>
+                {{ claim.customerFirstName }}
+                {{ claim.customerLastName }}
+              </td>
+
+              <td>{{ claim.customerEmail }}</td>
+
+              <td>{{ claim.policyType }}</td>
+
+              <td>{{ claim.claimDate }}</td>
+
+              <td>{{ claim.amountClaimed | currency:'USD' }}</td>
+
+              <td>
+                <span
+                  class="status"
+                  [class.pending]="claim.status === 'Pending'"
+                  [class.approved]="claim.status === 'Approved'"
+                  [class.rejected]="claim.status === 'Rejected'">
+                  {{ claim.status }}
+                </span>
+              </td>
+
+              <td>
+                @if (claim.status === 'Pending') {
+                  <div class="actions">
+                    <button
+                      type="button"
+                      class="approve-button"
+                      (click)="reviewClaim(claim, 'Approved')"
+                      [disabled]="updatingClaimId !== null">
+                      @if (updatingClaimId === claim.claimId) {
+                        Updating...
+                      } @else {
+                        Approve
+                      }
+                    </button>
+
+                    <button
+                      type="button"
+                      class="reject-button"
+                      (click)="reviewClaim(claim, 'Rejected')"
+                      [disabled]="updatingClaimId !== null">
+                      Reject
+                    </button>
+                  </div>
+                } @else {
+                  <span class="reviewed-label">Reviewed</span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

@@ -1,0 +1,185 @@
+
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon" aria-hidden="true">U</div>
+      <span class="brand-name">UNUM</span>
+    </div>
+
+    <p class="nav-label">MENU</p>
+
+    <nav class="sidebar-nav" aria-label="Main navigation">
+      <a class="nav-link active" routerLink="/dashboard">
+        <span aria-hidden="true">⌂</span>
+        Dashboard
+      </a>
+
+      <a class="nav-link" routerLink="/policies">
+        <span aria-hidden="true">▤</span>
+        My Policies
+      </a>
+
+      <a class="nav-link" routerLink="/claims">
+        <span aria-hidden="true">▣</span>
+        Claims
+      </a>
+
+      <a class="nav-link" routerLink="/profile">
+        <span aria-hidden="true">◉</span>
+        My Profile
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="security-note">
+        <span class="security-dot" aria-hidden="true"></span>
+        Your information is secure
+      </div>
+
+      <button class="logout-button" type="button" (click)="logout()">
+        <span aria-hidden="true">↪</span>
+        Log out
+      </button>
+    </div>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">CUSTOMER PORTAL</p>
+        <h1>Dashboard</h1>
+      </div>
+
+      <div class="user-avatar" aria-label="Customer profile">
+        {{ customerName.charAt(0).toUpperCase() }}
+      </div>
+    </header>
+
+    <section class="welcome-section">
+      <p class="eyebrow">YOUR UNUM ACCOUNT</p>
+      <h2>Welcome back, {{ customerName }}.</h2>
+      <p class="welcome-description">
+        Here's an overview of your insurance account.
+      </p>
+    </section>
+
+
+    <section class="summary-grid" aria-label="Account summary">
+      <article class="summary-card">
+        <div class="summary-icon policy-icon" aria-hidden="true">▤</div>
+        <p class="summary-label">My Policies</p>
+
+        <p class="summary-value" aria-live="polite">
+          <ng-container *ngIf="isLoadingPolicies; else policyCount">
+            ...
+          </ng-container>
+
+          <ng-template #policyCount>
+            {{ policiesError ? '—' : policies.length }}
+          </ng-template>
+        </p>
+
+        <p class="summary-detail">
+          <ng-container *ngIf="isLoadingPolicies">
+            Loading your policies...
+          </ng-container>
+
+          <ng-container *ngIf="!isLoadingPolicies && policiesError">
+            {{ policiesError }}
+          </ng-container>
+
+          <ng-container *ngIf="!isLoadingPolicies && !policiesError">
+            {{ policies.length === 1 ? 'Policy in your account' : 'Policies in your account' }}
+          </ng-container>
+        </p>
+
+        <a class="summary-link" routerLink="/policies">
+          View policies →
+        </a>
+      </article>
+
+      <article class="summary-card">
+        <div class="summary-icon claim-icon" aria-hidden="true">▣</div>
+        <p class="summary-label">My Claims</p>
+
+        <p class="summary-value" aria-live="polite">
+          <ng-container *ngIf="isLoadingClaims; else claimCount">
+            ...
+          </ng-container>
+
+          <ng-template #claimCount>
+            {{ claimsError ? '—' : claims.length }}
+          </ng-template>
+        </p>
+
+        <p class="summary-detail">
+          <ng-container *ngIf="isLoadingClaims">
+            Loading your claims...
+          </ng-container>
+
+          <ng-container *ngIf="!isLoadingClaims && claimsError">
+            {{ claimsError }}
+          </ng-container>
+
+          <ng-container *ngIf="!isLoadingClaims && !claimsError">
+            {{ claims.length === 1 ? 'Claim submitted' : 'Claims submitted' }}
+          </ng-container>
+        </p>
+
+        <a class="summary-link" routerLink="/claims">
+          View claims →
+        </a>
+      </article>
+
+      <article class="summary-card">
+        <div class="summary-icon account-icon" aria-hidden="true">✓</div>
+        <p class="summary-label">Account Status</p>
+        <p class="summary-value status-value">Active</p>
+        <p class="summary-detail">Your portal is ready to use</p>
+      </article>
+    </section>
+
+
+    <section class="dashboard-panel">
+      <div class="panel-heading">
+        <div>
+          <h2>Quick access</h2>
+          <p>Manage your insurance in one place.</p>
+        </div>
+      </div>
+
+      <div class="quick-links">
+        <a class="quick-link" routerLink="/policies">
+          <span class="quick-link-icon" aria-hidden="true">▤</span>
+          <span>
+            <strong>View policies</strong>
+            <small>Review your coverage details</small>
+          </span>
+          <span class="quick-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a class="quick-link" routerLink="/claims">
+          <span class="quick-link-icon" aria-hidden="true">▣</span>
+          <span>
+            <strong>Manage claims</strong>
+            <small>Review your claim information</small>
+          </span>
+          <span class="quick-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a class="quick-link" routerLink="/profile">
+          <span class="quick-link-icon" aria-hidden="true">◉</span>
+          <span>
+            <strong>My profile</strong>
+            <small>Review your account details</small>
+          </span>
+          <span class="quick-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+
+    <footer class="dashboard-footer">
+      UNUM · Customer Portal
+    </footer>
+  </main>
+</div>

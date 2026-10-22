@@ -1,0 +1,35 @@
+.payments-container {
+    padding: 30px;
+}
+
+.payments-container h1 {
+    margin-bottom: 25px;
+}
+
+.payment-list {
+    display: grid;
+    gap: 20px;
+    max-width: 700px;
+}
+
+.payment-card {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.payment-card h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.payment-card p {
+    margin: 8px 0;
+}
+
+.error-message {
+    padding: 15px;
+    border: 1px solid #dc3545;
+    border-radius: 5px;
+}

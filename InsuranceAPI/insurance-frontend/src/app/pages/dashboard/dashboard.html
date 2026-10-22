@@ -1,0 +1,121 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <div>
+      <p class="eyebrow">YOUR INSURANCE OVERVIEW</p>
+      <h1>Insurance Dashboard</h1>
+      <p class="dashboard-subtitle">
+        Review your coverage and keep your insurance information organized.
+      </p>
+    </div>
+
+    <div class="header-shield" aria-hidden="true">✓</div>
+  </header>
+
+  @if (errorMessage) {
+    <div class="error-message" role="alert">
+      <span class="message-icon" aria-hidden="true">!</span>
+      <div>
+        <strong>Unable to load your policies</strong>
+        <p>{{ errorMessage }}</p>
+      </div>
+    </div>
+  } @else {
+    <section class="overview-grid" aria-label="Policy overview">
+      <article class="overview-card">
+        <div class="overview-icon policy-icon" aria-hidden="true">▤</div>
+        <div class="overview-content">
+          <p>Total policies</p>
+          <strong>{{ policies.length }}</strong>
+          <span>Policies associated with your account</span>
+        </div>
+      </article>
+
+      <article class="overview-card">
+        <div class="overview-icon shield-icon" aria-hidden="true">✓</div>
+        <div class="overview-content">
+          <p>Coverage overview</p>
+          <strong>{{ policies.length > 0 ? 'Available' : 'Not set up' }}</strong>
+          <span>
+            {{ policies.length > 0
+              ? 'Review your policy details below'
+              : 'Add a policy to get started' }}
+          </span>
+        </div>
+      </article>
+    </section>
+
+    <section class="policies-section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">YOUR COVERAGE</p>
+          <h2>My Policies</h2>
+          <p class="section-subtitle">
+            View your policy details, premiums, and coverage dates.
+          </p>
+        </div>
+
+        <span class="policy-count">
+          {{ policies.length }}
+          {{ policies.length === 1 ? 'policy' : 'policies' }}
+        </span>
+      </div>
+
+      @if (policies.length > 0) {
+        <div class="policy-list">
+          @for (policy of policies; track policy.policyId) {
+            <article class="policy-card">
+              <div class="policy-card-header">
+                <div class="policy-type-icon" aria-hidden="true">✓</div>
+
+                <div class="policy-title">
+                  <h3>{{ policy.policyType }} Insurance</h3>
+                  <p>Policy #{{ policy.policyId }}</p>
+                </div>
+
+                <span class="status-badge">{{ policy.status }}</span>
+              </div>
+
+              <div class="policy-divider"></div>
+
+              <div class="policy-details">
+                <div class="detail-item">
+                  <span class="detail-label">Policy ID</span>
+                  <strong>{{ policy.policyId }}</strong>
+                </div>
+
+                <div class="detail-item">
+                  <span class="detail-label">Customer ID</span>
+                  <strong>{{ policy.customerId }}</strong>
+                </div>
+
+                <div class="detail-item premium-detail">
+                  <span class="detail-label">Premium</span>
+                  <strong>{{ policy.premiumAmount | currency:'USD':'symbol':'1.2-2' }}</strong>
+                </div>
+
+                <div class="detail-item">
+                  <span class="detail-label">Start date</span>
+                  <strong>{{ policy.startDate }}</strong>
+                </div>
+
+                <div class="detail-item">
+                  <span class="detail-label">End date</span>
+                  <strong>{{ policy.endDate }}</strong>
+                </div>
+              </div>
+            </article>
+          }
+        </div>
+      } @else {
+        <div class="empty-state">
+          <div class="empty-state-icon" aria-hidden="true">▤</div>
+          <h3>No policies yet</h3>
+          <p>
+            Your insurance policies will appear here when they are associated
+            with your account.
+          </p>
+        </div>
+      }
+    </section>
+  }
+</div>

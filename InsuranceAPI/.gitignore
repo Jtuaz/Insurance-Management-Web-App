@@ -1,0 +1,23 @@
+﻿# .NET generated files
+**/bin/
+**/obj/
+
+# Visual Studio
+.vs/
+
+# Angular dependencies and generated output
+**/node_modules/
+**/dist/
+**/.angular/
+**/coverage/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+publish-folder/
+wwwroot/

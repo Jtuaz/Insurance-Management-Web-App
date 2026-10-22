@@ -1,0 +1,66 @@
+<div class="profile-container">
+
+    <h1>My Profile</h1>
+
+    @if (errorMessage) {
+
+        <div class="error-message">
+            {{ errorMessage }}
+        </div>
+
+    }
+    @else if (customer) {
+
+        <div class="profile-card">
+
+            <h2>
+                {{ customer.firstName }}
+                {{ customer.lastName }}
+            </h2>
+
+            <div class="profile-information">
+
+                <p>
+                    <strong>Customer ID:</strong>
+                    {{ customer.customerId }}
+                </p>
+
+                <p>
+                    <strong>First Name:</strong>
+                    {{ customer.firstName }}
+                </p>
+
+                <p>
+                    <strong>Last Name:</strong>
+                    {{ customer.lastName }}
+                </p>
+
+                <p>
+                    <strong>Email:</strong>
+                    {{ customer.email }}
+                </p>
+
+                <p>
+                    <strong>Phone:</strong>
+                    {{ customer.phone }}
+                </p>
+
+                <p>
+                    <strong>Account Created:</strong>
+                    {{ customer.createdAt }}
+                </p>
+
+            </div>
+
+        </div>
+
+    }
+    @else {
+
+        <p>
+            Loading profile...
+        </p>
+
+    }
+
+</div>

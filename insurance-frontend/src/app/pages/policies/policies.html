@@ -1,0 +1,207 @@
+
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">U</div>
+      <span class="brand-name">UNUM</span>
+    </div>
+
+    <p class="nav-label">MENU</p>
+
+    <nav class="sidebar-nav" aria-label="Main navigation">
+      <a class="nav-link" routerLink="/dashboard">
+        <span>⌂</span> Dashboard
+      </a>
+      <a class="nav-link active" routerLink="/policies" aria-current="page">
+        <span>▤</span> My Policies
+      </a>
+      <a class="nav-link" routerLink="/claims">
+        <span>▣</span> Claims
+      </a>
+      <a class="nav-link" routerLink="/profile">
+        <span>◉</span> My Profile
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="security-note">
+        <span class="security-dot"></span>
+        Your information is secure
+      </div>
+
+      <button class="logout-button" (click)="logout()" type="button">
+        ↪ Log out
+      </button>
+    </div>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">CUSTOMER PORTAL</p>
+        <h1>My Policies</h1>
+      </div>
+
+      <div class="user-avatar">
+        {{ (policies.length > 0 ? 'P' : 'U') }}
+      </div>
+    </header>
+
+    <section class="welcome-section">
+      <p class="eyebrow">YOUR COVERAGE</p>
+      <h2>Your insurance policies</h2>
+      <p class="welcome-description">
+        Review your coverage, premiums, and policy dates.
+      </p>
+    </section>
+
+    <div class="policy-actions">
+      <button
+        type="button"
+        class="create-policy-button"
+        (click)="toggleCreateForm()">
+        {{ showCreateForm ? 'Cancel' : '+ Create New Policy' }}
+      </button>
+    </div>
+
+    @if (successMessage) {
+      <div class="message-panel success-message" role="status">
+        {{ successMessage }}
+      </div>
+    }
+
+    @if (showCreateForm) {
+      <section class="create-policy-panel">
+        <div class="panel-heading">
+          <h2>Create a New Policy</h2>
+          <p>Enter the details for your new insurance policy.</p>
+        </div>
+
+        <form (ngSubmit)="createPolicy()">
+          <div class="policy-form-grid">
+            <div class="form-field">
+              <label for="policyType">Policy Type</label>
+              <select
+                id="policyType"
+                name="policyType"
+                [(ngModel)]="policyType"
+                required>
+                <option value="Auto">Auto Insurance</option>
+                <option value="Home">Home Insurance</option>
+                <option value="Health">Health Insurance</option>
+                <option value="Life">Life Insurance</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="premiumAmount">Premium Amount ($)</label>
+              <input
+                id="premiumAmount"
+                name="premiumAmount"
+                type="number"
+                [(ngModel)]="premiumAmount"
+                min="0.01"
+                step="0.01"
+                placeholder="e.g. 125.50"
+                required>
+            </div>
+
+            <div class="form-field">
+              <label for="startDate">Start Date</label>
+              <input
+                id="startDate"
+                name="startDate"
+                type="date"
+                [(ngModel)]="startDate"
+                required>
+            </div>
+
+            <div class="form-field">
+              <label for="endDate">End Date</label>
+              <input
+                id="endDate"
+                name="endDate"
+                type="date"
+                [(ngModel)]="endDate"
+                [min]="startDate"
+                required>
+            </div>
+          </div>
+
+          @if (formError) {
+            <div class="message-panel error-message" role="alert">
+              {{ formError }}
+            </div>
+          }
+
+          <div class="form-actions">
+            <button
+              type="submit"
+              class="submit-policy-button"
+              [disabled]="isCreating">
+              {{ isCreating ? 'Creating Policy...' : 'Create Policy' }}
+            </button>
+          </div>
+        </form>
+      </section>
+    }
+
+    @if (isLoading) {
+      <section class="message-panel">
+        <p>Loading your policies...</p>
+      </section>
+    } @else if (errorMessage) {
+      <section class="message-panel error-panel" role="alert">
+        <p>{{ errorMessage }}</p>
+        <a routerLink="/login">Return to login</a>
+      </section>
+    } @else if (policies.length === 0) {
+      <section class="message-panel empty-state">
+        <div class="empty-icon">▤</div>
+        <h2>No policies found</h2>
+        <p>You don't have any insurance policies to display yet.</p>
+        <p>Use Create New Policy to add a policy.</p>
+      </section>
+    } @else {
+      <section class="policy-grid" aria-label="Your insurance policies">
+        @for (policy of policies; track policy.policyId) {
+          <article class="policy-card">
+            <div class="policy-card-header">
+              <div class="summary-icon policy-icon">▤</div>
+
+              <span
+                class="status-badge"
+                [class.inactive-status]="policy.status.toLowerCase() !== 'active'">
+                {{ policy.status }}
+              </span>
+            </div>
+
+            <p class="policy-label">POLICY #{{ policy.policyId }}</p>
+            <h2>{{ policy.policyType }} Insurance</h2>
+
+            <div class="premium-section">
+              <span>Premium</span>
+              <strong>{{ policy.premiumAmount | currency:'USD' }}</strong>
+            </div>
+
+            <div class="policy-dates">
+              <div>
+                <span>Start date</span>
+                <strong>{{ policy.startDate | date:'mediumDate' }}</strong>
+              </div>
+
+              <div>
+                <span>End date</span>
+                <strong>{{ policy.endDate | date:'mediumDate' }}</strong>
+              </div>
+            </div>
+          </article>
+        }
+      </section>
+    }
+
+    <footer class="dashboard-footer">
+      UNUM · Customer Portal
+    </footer>
+  </main>
+</div>

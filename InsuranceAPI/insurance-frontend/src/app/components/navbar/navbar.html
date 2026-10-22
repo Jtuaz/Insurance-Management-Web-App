@@ -1,0 +1,112 @@
+<aside class="navbar" [class.menu-open]="menuOpen">
+  <div class="navbar-brand">
+    <a routerLink="/dashboard" (click)="closeMenu()">
+      <span class="brand-mark" aria-hidden="true">
+        <span>H</span>
+      </span>
+
+      <span class="brand-text">
+        <strong>UNUM</strong>
+        <small>Insurance Portal</small>
+      </span>
+    </a>
+  </div>
+
+  <div class="nav-section-label">YOUR ACCOUNT</div>
+
+  <nav class="navbar-links" aria-label="Main navigation">
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="closeMenu()">
+      <span class="nav-icon" aria-hidden="true">⌂</span>
+      <span>Dashboard</span>
+    </a>
+
+    <a
+      routerLink="/policies"
+      routerLinkActive="active"
+      (click)="closeMenu()">
+      <span class="nav-icon" aria-hidden="true">▤</span>
+      <span>My Policies</span>
+    </a>
+
+    <a
+      routerLink="/claims"
+      routerLinkActive="active"
+      (click)="closeMenu()">
+      <span class="nav-icon" aria-hidden="true">▧</span>
+      <span>My Claims</span>
+    </a>
+
+    <a
+      routerLink="/payments"
+      routerLinkActive="active"
+      (click)="closeMenu()">
+      <span class="nav-icon" aria-hidden="true">$</span>
+      <span>Payments</span>
+    </a>
+
+    <a
+      routerLink="/profile"
+      routerLinkActive="active"
+      (click)="closeMenu()">
+      <span class="nav-icon" aria-hidden="true">♙</span>
+      <span>My Profile</span>
+    </a>
+
+    @if (auth.isAdmin()) {
+      <div class="nav-section-label admin-label">
+        ADMINISTRATION
+      </div>
+
+      <a
+        routerLink="/admin/claims"
+        routerLinkActive="active"
+        (click)="closeMenu()">
+        <span class="nav-icon" aria-hidden="true">✓</span>
+        <span>Claims Management</span>
+      </a>
+    }
+  </nav>
+
+  <div class="navbar-footer">
+    <div class="support-note">
+      <span class="support-icon" aria-hidden="true">i</span>
+      <div>
+        <strong>Need assistance?</strong>
+        <span>We're here to help.</span>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="logout-button"
+      (click)="logout()">
+      <span aria-hidden="true">↪</span>
+      Sign Out
+    </button>
+
+    <p class="navbar-caption">Protected. Prepared. Peace of mind.</p>
+  </div>
+</aside>
+
+@if (menuOpen) {
+  <button
+    type="button"
+    class="mobile-backdrop"
+    aria-label="Close navigation menu"
+    (click)="closeMenu()">
+  </button>
+}
+
+<button
+  type="button"
+  class="mobile-menu-toggle"
+  aria-label="Toggle navigation menu"
+  [attr.aria-expanded]="menuOpen"
+  (click)="toggleMenu()">
+  <span>{{ menuOpen ? '✕' : '☰' }}</span>
+  <strong>UNUM  <span>Insurance Portal</span></strong>
+</button>

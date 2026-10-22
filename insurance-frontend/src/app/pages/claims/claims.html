@@ -1,0 +1,223 @@
+
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">U</div>
+      <span class="brand-name">UNUM</span>
+    </div>
+
+    <p class="nav-label">MENU</p>
+
+    <nav class="sidebar-nav" aria-label="Main navigation">
+      <a class="nav-link" routerLink="/dashboard">
+        <span>⌂</span> Dashboard
+      </a>
+
+      <a class="nav-link" routerLink="/policies">
+        <span>▤</span> My Policies
+      </a>
+
+      <a class="nav-link active" routerLink="/claims" aria-current="page">
+        <span>▣</span> Claims
+      </a>
+
+      <a class="nav-link" routerLink="/profile">
+        <span>◉</span> My Profile
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="security-note">
+        <span class="security-dot"></span>
+        Your information is secure
+      </div>
+
+      <button
+        class="logout-button"
+        (click)="logout()"
+        type="button">
+        ↪ Log out
+      </button>
+    </div>
+  </aside>
+
+  <main class="dashboard-main">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">CUSTOMER PORTAL</p>
+        <h1>My Claims</h1>
+      </div>
+
+      <div class="user-avatar">
+        {{ claims.length > 0 ? claims.length : 'U' }}
+      </div>
+    </header>
+
+    <section class="welcome-section">
+      <p class="eyebrow">CLAIMS CENTER</p>
+      <h2>Track your insurance claims</h2>
+      <p class="welcome-description">
+        Review your submitted claims, claimed amounts, and current status.
+      </p>
+    </section>
+
+    <section class="claim-actions">
+      <div>
+        <h2>Need to file a claim?</h2>
+        <p>Submit a claim for one of your insurance policies.</p>
+      </div>
+
+      <button
+        type="button"
+        class="primary-button"
+        (click)="toggleClaimForm()">
+        {{ showClaimForm ? 'Cancel' : '+ Submit a Claim' }}
+      </button>
+    </section>
+
+    @if (successMessage) {
+      <section class="message-panel success-panel" role="status">
+        {{ successMessage }}
+      </section>
+    }
+
+    @if (showClaimForm) {
+      <section class="claim-form-panel">
+        <h2>Submit a New Claim</h2>
+
+        <p class="form-description">
+          Enter the policy and details associated with your claim.
+        </p>
+
+        @if (formError) {
+          <div class="form-error" role="alert">
+            {{ formError }}
+          </div>
+        }
+
+        <form (ngSubmit)="submitClaim()" #claimForm="ngForm">
+          <div class="form-field">
+            <label for="policyId">Insurance policy</label>
+
+            <select
+              id="policyId"
+              name="policyId"
+              [(ngModel)]="policyId"
+              required>
+              <option [ngValue]="null" disabled>
+                Select a policy
+              </option>
+
+              @for (policy of policies; track policy.policyId) {
+                <option [ngValue]="policy.policyId">
+                  {{ policy.policyType }} — Policy #{{ policy.policyId }}
+                </option>
+              }
+            </select>
+
+            @if (policies.length === 0) {
+              <small>No policies available to select.</small>
+            }
+          </div>
+
+          <div class="form-field">
+            <label for="claimDate">Claim date</label>
+
+            <input
+              id="claimDate"
+              name="claimDate"
+              type="date"
+              [(ngModel)]="claimDate"
+              required />
+          </div>
+
+          <div class="form-field">
+            <label for="amountClaimed">Amount claimed ($)</label>
+
+            <input
+              id="amountClaimed"
+              name="amountClaimed"
+              type="number"
+              min="0.01"
+              step="0.01"
+              placeholder="Enter amount"
+              [(ngModel)]="amountClaimed"
+              required />
+          </div>
+
+          <button
+            type="submit"
+            class="primary-button"
+            [disabled]="isSubmitting || policies.length === 0">
+            {{ isSubmitting ? 'Submitting...' : 'Submit Claim' }}
+          </button>
+        </form>
+      </section>
+    }
+
+    @if (isLoading) {
+      <section class="message-panel">
+        <p>Loading your claims...</p>
+      </section>
+    } @else if (errorMessage) {
+      <section class="message-panel error-panel" role="alert">
+        <p>{{ errorMessage }}</p>
+
+        <button type="button" (click)="loadClaims()">
+          Try again
+        </button>
+      </section>
+    } @else if (claims.length === 0) {
+      <section class="message-panel">
+        <div class="empty-icon">▣</div>
+        <h2>No claims found</h2>
+        <p>You don't have any submitted claims yet.</p>
+      </section>
+    } @else {
+      <section class="policy-grid" aria-label="Your insurance claims">
+        @for (claim of claims; track claim.claimId) {
+          <article class="policy-card">
+            <div class="policy-card-header">
+              <div class="policy-icon">▤</div>
+
+              <span
+                class="status-badge"
+                [class.inactive-status]="claim.status.toLowerCase() !== 'approved'">
+                {{ claim.status }}
+              </span>
+            </div>
+
+            <p class="policy-label">
+              CLAIM #{{ claim.claimId }}
+            </p>
+
+            <h2>Insurance Claim</h2>
+
+            <div class="premium-section">
+              <span>Amount claimed</span>
+              <strong>
+                {{ claim.amountClaimed | currency:'USD' }}
+              </strong>
+            </div>
+
+            <div class="policy-dates">
+              <div>
+                <span>Policy ID</span>
+                <strong>#{{ claim.policyId }}</strong>
+              </div>
+
+              <div>
+                <span>Claim date</span>
+                <strong>{{ claim.claimDate | date:'mediumDate' }}</strong>
+              </div>
+            </div>
+          </article>
+        }
+      </section>
+    }
+
+    <footer class="dashboard-footer">
+      UNUM · Customer Portal
+    </footer>
+  </main>
+</div>

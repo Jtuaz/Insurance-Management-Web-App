@@ -1,0 +1,30 @@
+﻿# .NET generated files
+**/bin/
+**/obj/
+
+# Angular generated files and dependencies
+**/node_modules/
+**/.angular/
+**/dist/
+
+# Local secrets and configuration
+**/appsettings.json
+**/appsettings.*.local.json
+**/.env
+**/.env.*
+
+# Certificates and publish profiles
+**/*.pfx
+**/*.publishsettings
+**/Properties/PublishProfiles/
+
+# Deployment snapshots and rollback copies
+InsuranceAPI/publish-clean/
+InsuranceAPI/publish-folder/
+InsuranceAPI/rollback-publish/
+
+# IDE and OS files
+.vs/
+.vscode/
+.DS_Store
+Thumbs.db

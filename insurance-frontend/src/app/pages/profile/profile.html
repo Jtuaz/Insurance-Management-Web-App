@@ -1,0 +1,209 @@
+
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">U</div>
+      <span>UNUM</span>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Main navigation">
+      <a routerLink="/dashboard" class="nav-item">
+        <span class="nav-icon">⌂</span>
+        Dashboard
+      </a>
+
+      <a routerLink="/policies" class="nav-item">
+        <span class="nav-icon">▤</span>
+        My Policies
+      </a>
+
+      <a routerLink="/claims" class="nav-item">
+        <span class="nav-icon">▣</span>
+        Claims
+      </a>
+
+      <a
+        routerLink="/profile"
+        class="nav-item active"
+        aria-current="page">
+        <span class="nav-icon">◉</span>
+        My Profile
+      </a>
+    </nav>
+
+    <button
+      type="button"
+      class="logout-button"
+      (click)="logout()">
+      <span class="nav-icon">↪</span>
+      Log Out
+    </button>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">ACCOUNT SETTINGS</p>
+        <h1>My Profile</h1>
+      </div>
+
+      @if (profile) {
+        <div class="user-badge">
+          <div class="avatar">
+            {{ profile.firstName.charAt(0) }}{{ profile.lastName.charAt(0) }}
+          </div>
+
+          <div>
+            <strong>{{ profile.firstName }} {{ profile.lastName }}</strong>
+            <span>Customer</span>
+          </div>
+        </div>
+      }
+    </header>
+
+    <section class="welcome-section">
+      <h2>Your personal information</h2>
+      <p>
+        View and manage the contact information associated with your account.
+      </p>
+    </section>
+
+    @if (isLoading) {
+      <section class="message-panel">
+        Loading your profile...
+      </section>
+    }
+
+    @if (errorMessage) {
+      <section class="message-panel error-panel" role="alert">
+        {{ errorMessage }}
+      </section>
+    }
+
+    @if (successMessage) {
+      <section class="message-panel success-panel" role="status">
+        {{ successMessage }}
+      </section>
+    }
+
+    @if (!isLoading && profile) {
+      <section class="profile-card">
+        <div class="profile-card-header">
+          <div>
+            <h2>Personal details</h2>
+            <p>Keep your information up to date.</p>
+          </div>
+
+          @if (!isEditing) {
+            <button
+              type="button"
+              class="primary-button"
+              (click)="startEditing()">
+              Edit Profile
+            </button>
+          }
+        </div>
+
+        @if (isEditing) {
+          <form (ngSubmit)="saveProfile()" #profileForm="ngForm">
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="firstName">First name</label>
+                <input
+                  id="firstName"
+                  name="firstName"
+                  type="text"
+                  [(ngModel)]="firstName"
+                  maxlength="100"
+                  required />
+              </div>
+
+              <div class="form-field">
+                <label for="lastName">Last name</label>
+                <input
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  [(ngModel)]="lastName"
+                  maxlength="100"
+                  required />
+              </div>
+
+              <div class="form-field">
+                <label for="email">Email address</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  [(ngModel)]="email"
+                  maxlength="255"
+                  required />
+              </div>
+
+              <div class="form-field">
+                <label for="phone">Phone number</label>
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  [(ngModel)]="phone"
+                  maxlength="30" />
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button
+                type="button"
+                class="secondary-button"
+                (click)="cancelEditing()"
+                [disabled]="isSaving">
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                class="primary-button"
+                [disabled]="isSaving || profileForm.invalid">
+                {{ isSaving ? 'Saving...' : 'Save Changes' }}
+              </button>
+            </div>
+          </form>
+        } @else {
+          <div class="profile-details">
+            <div class="detail-item">
+              <span class="detail-label">First name</span>
+              <strong>{{ profile.firstName }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span class="detail-label">Last name</span>
+              <strong>{{ profile.lastName }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span class="detail-label">Email address</span>
+              <strong>{{ profile.email }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span class="detail-label">Phone number</span>
+              <strong>{{ profile.phone || 'Not provided' }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span class="detail-label">Customer ID</span>
+              <strong>#{{ profile.customerId }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span class="detail-label">Member since</span>
+              <strong>
+                {{ profile.createdAt ? (profile.createdAt | date:'MMMM d, y') : 'Not available' }}
+              </strong>
+            </div>
+          </div>
+        }
+      </section>
+    }
+  </main>
+</div>

@@ -1,0 +1,428 @@
+
+:host {
+  display: block;
+  min-height: 100vh;
+  color: #182b49;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f4f7fb;
+}
+
+.sidebar {
+  display: flex;
+  flex: 0 0 245px;
+  flex-direction: column;
+  padding: 30px 20px 22px;
+  background: #ffffff;
+  border-right: 1px solid #e6ebf2;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 10px;
+  margin-bottom: 54px;
+}
+
+.brand-icon {
+  display: grid;
+  width: 39px;
+  height: 39px;
+  place-items: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #087e91, #13a7a0);
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.brand-name {
+  margin: 0;
+  color: #16304f;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.nav-label,
+.eyebrow {
+  color: #7b8aa0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.nav-label {
+  padding: 0 12px;
+  margin: 0 0 13px;
+}
+
+.sidebar-nav {
+  display: grid;
+  gap: 8px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 14px;
+  border-radius: 10px;
+  color: #65748a;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav-link span {
+  width: 20px;
+  font-size: 19px;
+  text-align: center;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: #eaf6f7;
+  color: #087e91;
+}
+
+.nav-link.active {
+  font-weight: 700;
+}
+
+.sidebar-bottom {
+  display: grid;
+  gap: 18px;
+  margin-top: auto;
+}
+
+.security-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 9px;
+  background: #f3f8f8;
+  color: #64778a;
+  font-size: 11px;
+}
+
+.security-dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 50%;
+  background: #1ba78c;
+}
+
+.logout-button {
+  padding: 12px 14px;
+  border: 1px solid #e1e7ef;
+  border-radius: 9px;
+  background: white;
+  color: #596a80;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background: #f7f9fc;
+}
+
+.dashboard-main {
+  flex: 1;
+  min-width: 0;
+  padding: 30px 42px 22px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #e4eaf2;
+}
+
+.topbar .eyebrow {
+  margin: 0 0 7px;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.user-avatar {
+  display: grid;
+  width: 43px;
+  height: 43px;
+  place-items: center;
+  border: 1px solid #cce9e9;
+  border-radius: 50%;
+  background: #e4f4f4;
+  color: #087e91;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.welcome-section {
+  padding: 35px 0 26px;
+}
+
+.welcome-section .eyebrow {
+  margin: 0 0 10px;
+  color: #078b94;
+}
+
+.welcome-section h2 {
+  margin: 0;
+  color: #182b49;
+  font-size: clamp(25px, 3vw, 33px);
+  font-weight: 700;
+  letter-spacing: -0.8px;
+}
+
+.welcome-description {
+  margin: 11px 0 0;
+  color: #74839a;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.summary-card {
+  padding: 23px;
+  border: 1px solid #e6ebf2;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 5px 20px rgb(28 48 77 / 3%);
+}
+
+.summary-icon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  font-size: 20px;
+}
+
+.policy-icon {
+  background: #e6f4fa;
+  color: #247eae;
+}
+
+.claim-icon {
+  background: #f0eaff;
+  color: #7a5cc7;
+}
+
+.account-icon {
+  background: #e3f7ef;
+  color: #178c70;
+}
+
+.summary-label {
+  margin: 0 0 9px;
+  color: #728198;
+  font-size: 13px;
+}
+
+.summary-value {
+  margin: 0;
+  color: #1c304e;
+  font-size: 27px;
+  font-weight: 700;
+}
+
+.status-value {
+  color: #18886d;
+  font-size: 23px;
+}
+
+.summary-detail {
+  margin: 9px 0 0;
+  color: #93a0b1;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.dashboard-panel {
+  margin-top: 25px;
+  padding: 25px;
+  border: 1px solid #e6ebf2;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 5px 20px rgb(28 48 77 / 3%);
+}
+
+.panel-heading h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.panel-heading p {
+  margin: 7px 0 20px;
+  color: #7b899d;
+  font-size: 13px;
+}
+
+.quick-links {
+  display: grid;
+  gap: 10px;
+}
+
+.quick-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px;
+  border: 1px solid #edf0f5;
+  border-radius: 10px;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.quick-link:hover {
+  border-color: #b9dfe2;
+  background: #f8fcfc;
+}
+
+.quick-link-icon {
+  display: grid;
+  width: 39px;
+  height: 39px;
+  flex: 0 0 39px;
+  place-items: center;
+  border-radius: 10px;
+  background: #eaf6f7;
+  color: #087e91;
+  font-size: 19px;
+}
+
+.quick-link strong,
+.quick-link small {
+  display: block;
+}
+
+.quick-link strong {
+  font-size: 13px;
+}
+
+.quick-link small {
+  margin-top: 5px;
+  color: #8491a3;
+  font-size: 12px;
+}
+
+.quick-arrow {
+  margin-left: auto;
+  color: #087e91;
+  font-size: 20px;
+}
+
+.dashboard-footer {
+  padding-top: 23px;
+  color: #9aa6b6;
+  font-size: 11px;
+  text-align: center;
+}
+
+@media (max-width: 1000px) {
+  .sidebar {
+    flex-basis: 205px;
+  }
+
+  .dashboard-main {
+    padding-right: 25px;
+    padding-left: 25px;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  .dashboard-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    flex-basis: auto;
+    padding: 17px;
+    border-right: none;
+    border-bottom: 1px solid #e6ebf2;
+  }
+
+  .sidebar-brand {
+    margin-bottom: 20px;
+  }
+
+  .nav-label,
+  .sidebar-bottom {
+    display: none;
+  }
+
+  .sidebar-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .nav-link {
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .dashboard-main {
+    padding: 22px 16px;
+  }
+
+  .summary-grid {
+    gap: 12px;
+  }
+
+  .dashboard-panel {
+    padding: 17px;
+  }
+}
+
+
+.summary-link {
+  display: inline-block;
+  margin-top: 14px;
+  color: #087e91;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.summary-link:hover {
+  color: #065e6b;
+  text-decoration: underline;
+}
+
+.summary-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.summary-card .summary-detail {
+  overflow-wrap: anywhere;
+}
+
