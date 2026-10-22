@@ -28,3 +28,5 @@ InsuranceAPI/rollback-publish/
 .vscode/
 .DS_Store
 Thumbs.db
+
+/InsuranceAPI/publish/
