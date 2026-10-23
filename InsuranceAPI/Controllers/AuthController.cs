@@ -63,12 +63,13 @@ public class AuthController : ControllerBase
         });
     }
 
-    [HttpPost("login")]
-    public async Task<IActionResult> Login(
-        string email,
-        string password)
-    {
-        var customer = await _context.Customers
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            var email = request.Email;
+            var password = request.Password;
+            
+            var customer = await _context.Customers
             .FirstOrDefaultAsync(c => c.Email == email);
 
         if (customer == null)
